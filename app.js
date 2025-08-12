@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5000; // Utilisation de la variable d'environne
 // Middleware pour autoriser les requêtes CORS et parser le corps des requêtes
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: process.env.CORS_ORIGIN?.split(",") || [],
     credentials: true,
     exposedHeaders: ["set-cookie"],
   })
