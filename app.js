@@ -38,10 +38,10 @@ mongoose
     process.exit(1); // Terminer l'application si la connexion échoue
   });
 
-// // Route d'exemple
-// app.get("/", (req, res) => {
-//   res.send("Hello, world! Server is running!");
-// });
+// Route d'exemple
+app.get("/api/health", (req, res) => {
+  res.json({ok:true,message:"API is running"});
+});
 app.use("/posts", postsRouter);
 app.use("/users", usersRouter);
 
