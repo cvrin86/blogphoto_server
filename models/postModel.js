@@ -23,7 +23,7 @@ const postSchema = mongoose.Schema(
       default: "uncategorized",
     },
 
-    author: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User", // La référence est vers le modèle "User"
     },
@@ -48,6 +48,6 @@ const postSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const Post = mongoose.model("posts", postSchema);
+const Post = mongoose.model("Post", postSchema);
 
 module.exports = Post;

@@ -28,7 +28,7 @@ exports.createPost = async (req, res) => {
       category,
       imagePath: imagePaths,
       tags,
-      author: req.user.id,
+      userId: req.user.id,
     });
 
     const savedPost = await newPost.save();
@@ -47,7 +47,7 @@ exports.getPosts = async (req, res) => {
     const sortDirection = req.query.order === "asc" ? 1 : -1;
 
     const posts = await Post.find()
-      .populate("author", "username")
+      .populate("userId", "username")
       .sort({ updatedAt: sortDirection })
       .skip(startIndex)
       .limit(limit);
@@ -212,7 +212,10 @@ exports.likePost = async (req, res) => {
 exports.commentPost = async (req, res) => {
   try {
     const { content } = req.body;
-    const postId = req.params.idPost;
+
+    const postId = req.params.postId;
+   
+    
 
     if (!content || !content.trim()) {
       return res.status(400).json({ error: 'Le commentaire ne peut pas être vide.' });
@@ -221,8 +224,8 @@ exports.commentPost = async (req, res) => {
     
     const newComment = new Comment({
       postId,
+      userId: req.user.id, 
       content,
-      author: req.user.id, 
     });
 
     const savedComment = await newComment.save();
