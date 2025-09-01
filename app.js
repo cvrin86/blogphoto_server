@@ -25,7 +25,9 @@ const PORT = process.env.PORT || 5000; // Utilisation de la variable d'environne
 
 app.use(
   cors({
-    origin: "*", // accepte tout le monde
+    origin: "https://blogphoto-client-zaaq.vercel.app", // ton front exact
+    credentials: true,
+    exposedHeaders: ["set-cookie"],
   })
 );
 
