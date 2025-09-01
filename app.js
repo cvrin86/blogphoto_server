@@ -12,13 +12,17 @@ const app = express();
 const PORT = process.env.PORT || 5000; // Utilisation de la variable d'environnement ou par défaut 5000
 
 // Middleware pour autoriser les requêtes CORS et parser le corps des requêtes
+const allowedOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(",")
+  : ["*"]; // fallback si rien défini
+
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN?.split(",") || [],
+    origin: allowedOrigins,
     credentials: true,
-    exposedHeaders: ["set-cookie"],
   })
 );
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
