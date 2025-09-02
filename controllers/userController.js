@@ -46,8 +46,8 @@ exports.createUser = async (req, res) => {
     // Send the token in a cookie
     res.cookie("jwt", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-      sameSite: "strict",
+      secure: true, // Use secure cookies in production
+      sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
     });
 
