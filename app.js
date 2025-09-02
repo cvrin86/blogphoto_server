@@ -12,24 +12,34 @@ const app = express();
 const PORT = process.env.PORT || 5000; // Utilisation de la variable d'environnement ou par défaut 5000
 
 // Middleware pour autoriser les requêtes CORS et parser le corps des requêtes
-const allowedOrigins = process.env.CORS_ORIGIN
-  ? process.env.CORS_ORIGIN.split(",")
-  : ["*"]; // fallback si rien défini
-
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-  })
-);
+// const allowedOrigins = process.env.CORS_ORIGIN
+//   ? process.env.CORS_ORIGIN.split(",")
+//   : ["*"]; // fallback si rien défini
 
 // app.use(
 //   cors({
-//     origin: "https://blogphoto-client-zaaq.vercel.app", // ton front exact
+//     origin: allowedOrigins,
 //     credentials: true,
-//     exposedHeaders: ["set-cookie"],
 //   })
 // );
+
+const allowedOrigins = [
+  "https://blogphoto-client.vercel.app", // ton front en prod
+  // tu peux en rajouter d'autres si besoin (previews, localhost...)
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 
 
 app.use(express.json());
