@@ -13,7 +13,7 @@ const {
 } = require("../controllers/postController");
 const router = express.Router();
 
-router.post("/create-post", auth, createPost);
+router.post("/create-post", createPost);
 router.get("/get-posts", getPosts);
 router.post("/get-images", getImages);
 router.get("/get-images", getImages);
