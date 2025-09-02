@@ -61,26 +61,43 @@ exports.getPosts = async (req, res) => {
   }
 };
 
+// Déclare une fonction asynchrone appelée "getPostsUser", exportée pour être utilisée ailleurs.
 exports.getPostsUser = async (req, res) => {
   try {
+    // Récupère l'identifiant de l'utilisateur connecté depuis l'objet req (par ex. via un middleware d'authentification).
     const userId = req.user.id;
 
+    // Récupère "startIndex" depuis les paramètres de requête (req.query). 
+    // Si absent ou invalide, la valeur par défaut sera 0. (parseInt convertit en nombre).
     const startIndex = parseInt(req.query.startIndex) || 0;
+
+    // Définit la direction du tri : si "order=asc", alors 1 (croissant), sinon -1 (décroissant).
     const sortDirection = req.query.order === "asc" ? 1 : -1;
 
+    // Recherche les posts dans la collection "Post" dont l'auteur correspond à l'userId.
+    // - .populate("author", "username") : remplace l'ID de l'auteur par ses infos, mais seulement le champ "username".
+    // - .sort({ updatedAt: sortDirection }) : trie les résultats par date de mise à jour, asc ou desc.
+    // - .skip(startIndex) : ignore les X premiers résultats, utile pour la pagination.
     const posts = await Post.find({ author: userId })
       .populate("author", "username")
       .sort({ updatedAt: sortDirection })
       .skip(startIndex);
+      console.log("Posts server + ",posts);
+      
 
+    // Renvoie la liste des posts trouvés au client avec un code HTTP 200 (OK).
     res.status(200).json(posts);
   } catch (error) {
+    // En cas d'erreur (par ex. problème de base de données), affiche l'erreur dans la console serveur.
     console.error(error);
+
+    // Et renvoie une réponse HTTP 500 (erreur interne serveur) avec un message JSON.
     res
       .status(500)
       .json({ message: "Erreur lors de la récupération des posts" });
   }
 };
+
 
 exports.getPostById = async (req, res) => {
   try {
