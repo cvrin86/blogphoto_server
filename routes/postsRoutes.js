@@ -20,7 +20,7 @@ router.get("/get-images", getImages);
 router.get("/get-post/:id", getPostById);
 
 // getting user posts
-router.get("/get-posts-user", auth, getPostsUser);
+router.get("/get-posts-user", getPostsUser);
 //  route update post
 
 router.put("/update-post/:id", auth, updatePost);

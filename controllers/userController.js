@@ -84,8 +84,8 @@ exports.loginUser = async (req, res) => {
       // Set the JWT token in the cookie
       res.cookie("jwt", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // Secure cookies in production
-        sameSite: "strict",
+        secure: true, // Secure cookies in production
+        sameSite: "none",
         maxAge: 24 * 60 * 60 * 1000, // 24 hours
       });
 
