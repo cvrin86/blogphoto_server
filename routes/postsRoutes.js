@@ -13,14 +13,14 @@ const {
 } = require("../controllers/postController");
 const router = express.Router();
 
-router.post("/create-post", createPost);
+router.post("/create-post", auth, createPost);
 router.get("/get-posts", getPosts);
 router.post("/get-images", getImages);
 router.get("/get-images", getImages);
 router.get("/get-post/:id", getPostById);
 
 // getting user posts
-router.get("/get-posts-user", getPostsUser);
+router.get("/get-posts-user", auth, getPostsUser);
 //  route update post
 
 router.put("/update-post/:id", auth, updatePost);
